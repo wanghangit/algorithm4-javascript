@@ -1,0 +1,24 @@
+{
+  "name": "algorithm4-javascript",
+  "version": "1.0.0",
+  "description": "这是在学习算法4这本书时， 用到的是java语言，在平时开发中使用最多的是js的语法，所以为了巩固一遍学到的内容，我决定使用javascript来实现一遍书中比较重要的算法",
+  "main": "index.js",
+  "scripts": {
+    "start": "tsc --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wanghangit/algorithm4-javascript.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/wanghangit/algorithm4-javascript/issues"
+  },
+  "homepage": "https://github.com/wanghangit/algorithm4-javascript#readme",
+  "devDependencies": {
+    "@types/node": "^12.11.2",
+    "typescript": "^3.6.4"
+  }
+}
