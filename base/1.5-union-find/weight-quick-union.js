@@ -13,6 +13,7 @@ class WeightQuickUnion extends UF{
     this.id = new Array(capacity);
     this.size = new Array(capacity);
     this.count = capacity
+    this.name = "weightQuickUnion"
     for (let i = 0; i < capacity; i++) {
       this.id[i] = i;
       this.size[i] = 1;
@@ -29,6 +30,7 @@ class WeightQuickUnion extends UF{
     if(p===q) return
     let pId = this.find(p);
     let qId = this.find(q);
+    // 如果根元素相同则说明已经连接在一起了
     if(pId===qId) return
     if(this.size[pId]>=this.size[qId]){
       this.id[qId] = pId

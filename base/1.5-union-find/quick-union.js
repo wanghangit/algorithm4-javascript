@@ -11,6 +11,7 @@ class QuickUnion extends UF {
     super()
     this.id = new Array(capacity);
     this.count = capacity;
+    this.name = "quickUnion"
     // 初始化id数组每个都指向自己
     for (let i = 0; i < this.id.length; i++) {
       this.id[i] = i;
