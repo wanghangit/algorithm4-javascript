@@ -16,20 +16,20 @@ function runTest(fn, testArray) {
 let num = 1000,
   size = 2000;
 
-// let arr = createArray(num, size);
-// runTest(chooseSort, arr);
+let arr = createArray(num, size);
+runTest(chooseSort, arr);
 
-// let arr1 = createArray(num, size);
-// runTest(insertSort, arr1);
+let arr1 = createArray(num, size);
+runTest(insertSort, arr1);
 
-// let arr2 = createArray(num, size);
-// runTest(shellSort, arr2);
+let arr2 = createArray(num, size);
+runTest(shellSort, arr2);
 
-// let arr3 = createArray(num, size);
-// runTest(mergeSortTop, arr3);
+let arr3 = createArray(num, size);
+runTest(mergeSortTop, arr3);
 
-// let arr4 = createArray(num, size);
-// runTest(mergeSortBottom, arr4);
+let arr4 = createArray(num, size);
+runTest(mergeSortBottom, arr4);
 
 let arr5 = createArray(num, size);
 runTest(quickSort, arr5);

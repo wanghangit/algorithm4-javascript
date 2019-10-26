@@ -3,8 +3,8 @@ const fs = require("fs");
 const cwd = process.cwd();
 
 const readFile = function(fileName){
-  const data = fs.readFileSync(cwd+fileName);
-  console.log(data);
+  const data = fs.readFileSync(cwd+fileName).toString();
+  return data
 }
 
 /**
@@ -51,6 +51,7 @@ function createArray(num,size){
 }
 
 module.exports = {
+  readFile,
   swap,
   isSorted,
   createArray
