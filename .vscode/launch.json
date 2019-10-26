@@ -10,7 +10,8 @@
       "name": "启动程序",
       // "program": "${workspaceFolder}/base/1.5-union-find/__test__/index.js",
       // "program": "${workspaceFolder}/sort/__test__/index.js",
-      "program": "${workspaceFolder}/graph/__test__/index.js",
+      // "program": "${workspaceFolder}/graph/__test__/index.js",
+      "program": "${workspaceFolder}/heap/__test__/index.js",
       "outFiles": [
         "${workspaceFolder}/**/*.js"
       ]

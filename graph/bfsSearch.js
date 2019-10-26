@@ -22,11 +22,10 @@ class BfsSearch{
         if(!this.marked[w]){
           points.push(w)
           this.edgeTo[w] = v
-          this.dfs(w)
+          this.bfs(w)
         }
       });
     }
- 
   }
   /**
    * 是否有一条路径到达这个端点
@@ -50,4 +49,4 @@ class BfsSearch{
   }
 }
 
-module.exports = DfsSearch
+module.exports = BfsSearch
