@@ -1,13 +1,13 @@
 const { swap } = require("../util")
 
 /**
- * 基于数组实现的最大堆
+ * 基于数组实现的最大堆优先队列
  */
 class maxPQ{
   constructor(array){  
     if(array){
       this.size = array.length
-      this.keys = array;
+      this.keys = [].concat(array);
       for(let i = Math.floor((this.size-2)/2); i>=0; i--){
         this.sink(i)
       }
@@ -30,6 +30,7 @@ class maxPQ{
     swap(this.keys, 0, this.size-1)
     let max = this.keys.pop()
     this.sink(0)
+    this.size--
     return max
   }
   less(k1,k2){
@@ -40,19 +41,19 @@ class maxPQ{
   }
   /**
    * 下沉操作一般用于删除操作
-   * 子元素2K+1,2K+2
+   * 子元素2K+1,2K+2中选出大的和k比较如果子元素大就交换元素也就是下沉操作
    */
   sink(k){
-    let min;
+    let max;
     while(2*k+1<this.size){
       if(this.less(2*k+2,2*k+1)){
-        min = 2*k+2;
+        max = 2*k+1;
       }else{
-        min = 2*k+1
+        max = 2*k+2
       }
-      if(this.keys[min]<this.keys[k]){
-        swap(this.keys, min, k)
-        k = min
+      if(this.less(k,max)){
+        swap(this.keys, max, k)
+        k = max
       }else{
         break;
       }
