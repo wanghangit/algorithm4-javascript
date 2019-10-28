@@ -7,6 +7,22 @@ const readFile = function(fileName){
   return data
 }
 
+const isUnDef = function(value) {
+  return value === null || value === undefined
+}
+
+const isDef = function(val){
+  return val !== undefined && val !== null
+}
+
+const validate = function(val){
+  if(isUnDef(val)){
+    console.log(`params: ${val} is not define`)
+    return true
+  }
+  return false
+}
+
 /**
  * 交换数组元素
  * @param {*} arr 
@@ -54,5 +70,8 @@ module.exports = {
   readFile,
   swap,
   isSorted,
-  createArray
+  createArray,
+  isUnDef,
+  isDef,
+  validate
 }
