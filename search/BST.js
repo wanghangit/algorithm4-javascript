@@ -50,8 +50,8 @@ class BST {
    * @param {*} key
    * @param {*} value
    */
-  put(key, value) {
-    this.root = this.putByNode(this.root, key, value);
+  add(key, value) {
+    this.root = this.addByNode(this.root, key, value);
   }
   /**
    *
@@ -59,14 +59,14 @@ class BST {
    * @param {*} key
    * @param {*} value
    */
-  putByNode(node, key, value) {
+  addByNode(node, key, value) {
     if (isUnDef(node)) {
       return new Node(key, value, 1);
     }
     if (key < node.key) {
-      node.left = this.putByNode(node.left, key, value);
+      node.left = this.addByNode(node.left, key, value);
     } else if (key > node.key) {
-      node.right = this.putByNode(node.right, key, value);
+      node.right = this.addByNode(node.right, key, value);
     } else {
       node.value = value;
     }
@@ -85,8 +85,10 @@ class BST {
     if(isUnDef(node)) return null
     if(key<node.key){
       node.left = this.deleteByNode(node.left, key)
+      return node
     }else if(key>node.key){
       node.right = this.deleteByNode(node.right, key)
+      return node
     }else{
       // 在找到要删除的元素时需要处理4种情况
       // 1.左右子树都为空直接删除
@@ -223,12 +225,12 @@ class BST {
    */
   preOrder(bst){
     const stack = []
-    stack.push(bst.root)
+    stack.push(this.root)
     let node,
         str = '';
     while(stack.length>0){
       node = stack.pop()
-      if(node.key){
+      if(node.key || node.key===0){
         str+=node.key+'->'
       }
       if(isDef(node.right)){
@@ -244,19 +246,69 @@ class BST {
    * 中序遍历
    */
   InOrder(){
+    const stack = []
+    let node = this.root
+    let str='';
+    while(stack.length>0 || isDef(node)){
+      // 首先遍历找到最左的节点
+      while(isDef(node)){
+        stack.push(node)
+        node = node.left
+      }
+      if(stack.length>0){
+        node = stack.pop()
+        str+=node.key+'->'
+        // 如果最左边节点有右子树再将这个右子树的左节点推入栈
+        node = node.right
+      }
+    }
+    console.log(str)
 
   }
   /**
    * 后序遍历
+   * 用两个栈实现
    */
   postOrder(){
-
+    const stack1 = []
+    const stack2 = []
+    stack1.push(this.root)
+    let node,
+        str = ""
+    while(stack1.length>0){
+      node = stack1.pop()
+      stack2.push(node)
+      if(isDef(node.left)){
+        stack1.push(node.left)
+      }
+      if(isDef(node.right)){
+        stack1.push(node.right)
+      }
+    }
+    while(stack2.length>0){
+      str+=stack2.pop().key+'->'
+    }
+    console.log(str)
   }
   /**
    * 层序遍历
    */
   sequenceOrder(){
-
+    const queue = []
+    queue.push(this.root)
+    let node,
+        str = ""
+    while(queue.length>0){
+      node = queue.shift()
+      str += node.key+'->'
+      if(isDef(node.left)){
+        queue.push(node.left)
+      }
+      if(isDef(node.right)){
+        queue.push(node.right)
+      }
+    }
+    console.log(str)
   }
 }
 
@@ -269,7 +321,7 @@ class Node {
 }
 
 function runTest(){
-  let N = 1000
+  let N = 5
   let arr = []
   for (let i = 0; i < N; i++) {
     arr[i] = i 
@@ -283,11 +335,11 @@ function runTest(){
   const bst = new BST();
 
   for (let i = 0; i < N; i++) {
-    bst.put(arr[i], arr[i])
+    bst.add(arr[i], arr[i])
   }
   console.log(arr)
-  console.log(bst.ceiling(8.2).key)
-  console.log(bst.floor(3.5).key)
+  // console.log(bst.ceiling(8.2).key)
+  // console.log(bst.floor(3.5).key)
   console.log("min:"+bst.min().key)
   console.log("max:"+bst.max().key)
   let res
@@ -301,9 +353,12 @@ function runTest(){
   }
   // bst.deleteMin()
   // bst.delete(3)
-  console.log(bst.get(0),bst.get(3))
+  //console.log(bst.get(0),bst.get(3))
   console.log(bst)
-  bst.preOrder(bst)
+  bst.preOrder()
+  bst.InOrder()
+  bst.postOrder()
+  bst.sequenceOrder()
 }
 
 runTest()
