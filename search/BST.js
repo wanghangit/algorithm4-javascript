@@ -1,12 +1,15 @@
-const { isUnDef, isDef, validate, swap } = require("../util")
+const { isUnDef, isDef, validate, swap } = require("../util");
+const Tree = require("./Tree")
 /**
  * 二叉搜索树
  * 一种基于链表的数据结构
  * 左子树小于根元素,右子树大于根元素
  */
-class BST {
+class BST extends Tree{
   constructor() {
+    super()
     this.root = null;
+    this.name = "BST"
   }
   /**
    * 返回节点下的节点总数
@@ -25,25 +28,6 @@ class BST {
       return true;
     }
     return false;
-  }
-  /**
-   * 根据key获取node节点
-   * @param {*} key 
-   */
-  get(key) {
-    if(validate(key)) return
-    return this.getByNode(this.root, key);
-  }
-  getByNode(node, key) {
-    if (isUnDef(node)) {
-      return null;
-    }
-    if (key < node.key) {
-      return this.getByNode(node.left, key);
-    } else if (key > node.key) {
-      return this.getByNode(node.right, key);
-    }
-    return node;
   }
   /**
    * 更新key节点的值如果没有就创建一个
@@ -75,240 +59,59 @@ class BST {
   }
   /**
    * 根据key删除一个节点
-   * @param {*} key 
+   * @param {*} key
    */
-  delete(key){
-    if(validate(key)) return
-    this.root = this.deleteByNode(this.root, key)
+  delete(key) {
+    if (validate(key)) return;
+    this.root = this.deleteByNode(this.root, key);
   }
-  deleteByNode(node, key){
-    if(isUnDef(node)) return null
-    if(key<node.key){
-      node.left = this.deleteByNode(node.left, key)
-      return node
-    }else if(key>node.key){
-      node.right = this.deleteByNode(node.right, key)
-      return node
-    }else{
+  deleteByNode(node, key) {
+    if (isUnDef(node)) return null;
+    if (key < node.key) {
+      node.left = this.deleteByNode(node.left, key);
+      return node;
+    } else if (key > node.key) {
+      node.right = this.deleteByNode(node.right, key);
+      return node;
+    } else {
       // 在找到要删除的元素时需要处理4种情况
       // 1.左右子树都为空直接删除
-      if(isUnDef(node.left)&&isUnDef(node.right)){
-        return null
+      if (isUnDef(node.left) && isUnDef(node.right)) {
+        return null;
       }
       // 2.左子树不为空,直接返回左子树
-      if(isDef(node.left)&&isUnDef(node.right)){
-        return node.left
+      if (isDef(node.left) && isUnDef(node.right)) {
+        return node.left;
       }
       // 3.右子树不为空,直接返回右子树
-      if(isDef(node.right)&&isUnDef(node.left)){
-        return node.left
+      if (isDef(node.right) && isUnDef(node.left)) {
+        return node.left;
       }
       // 4.左右子树都存在需要在右子树上找到当前节点的后继节点,将后继节点换到当前节点的位置更新后继节点的左右子树
-      let minRightNode = this.min(node.right)
-      node.right = this.deleteMinByNode(node.right)
-      minRightNode.right = node.right
-      minRightNode.left = node.left
-      return minRightNode
+      let minRightNode = this.min(node.right);
+      node.right = this.deleteMinByNode(node.right);
+      minRightNode.right = node.right;
+      minRightNode.left = node.left;
+      return minRightNode;
     }
   }
   /**
    * 删除最小值
    */
-  deleteMin(){
-    this.root = this.deleteMinByNode(this.root)
+  deleteMin() {
+    this.root = this.deleteMinByNode(this.root);
   }
-  deleteMinByNode(node){
+  deleteMinByNode(node) {
     // 如果左子数为空就删除当前节点也就是直接将父节点引用指向右节点
-    if(isUnDef(node.left)){
-      return node.right
+    if (isUnDef(node.left)) {
+      return node.right;
     }
-    node.left = this.deleteMinByNode(node.left)
-    node.N = this.size(node.left)+this.size(this.right)+1
-    return node
-  }
-  /**
-   * 选择最大的元素
-   */
-  max() {
-    return this.maxByNode(this.root);
-  }
-  maxByNode(node) {
-    if (isUnDef(node)) return null;
-    while (node.right) {
-      node = node.right;
-    }
+    node.left = this.deleteMinByNode(node.left);
+    node.N = this.size(node.left) + this.size(this.right) + 1;
     return node;
   }
-  /**
-   * 选择最小的元素
-   */
-  min() {
-    return this.minByNode(this.root);
-  }
-  minByNode(node) {
-    if (isUnDef(node)) return null;
-    while (node.left) {
-      node = node.left;
-    }
-    return node;
-  }
-  /**
-   * 小于等于key的最大节点
-   * 如果key小于当前跟节点那么应该在左子树上
-   * 如果key大于当前根节点那么应该去右子树上找，找不到就是根节点
-   * 如果等于就直接返回
-   */
-  floor(key) {
-    validate(key)
-    return this.floorByNode(this.root, key)
-  }
-  floorByNode(node, key){
-    if(isUnDef(node)) return null
-    if(key<node.key){
-      return this.floorByNode(node.left, key)
-    }else if(key === node.key){
-      return node
-    }else{
-      let right = this.floorByNode(node.right, key)
-      if(isDef(right)){
-        return right
-      }else{
-        return node
-      }
-    }
-  }
-  /**
-   * 大于等于key的最大节点
-   * 逻辑与floor相似
-   */
-  ceiling(key) {
-    return this.ceilingByNode(this.root, key)
-  }
-  ceilingByNode(node, key){
-    if(isUnDef(node)) return null
-    if(key>node.key){
-      return this.ceilingByNode(node.right, key)
-    }else if(key === node.key){
-      return node
-    }else{
-      let left = this.ceilingByNode(node.left, key)
-      if(isDef(left)){
-        return left
-      }
-      return node
-    }
-  }
-  /**
-   * 选择排名为k的节点
-   * k小于根的左子树数量就去左子树上找
-   * k大于根的左子树数量就要去右子树上递归去找，排名要减去左子树和根元素数量
-   */
-  select(k) {
-    if(k>this.root.N){
-      return null
-    }
-    return this.selectByNode(this.root, k)
-  }
-  selectByNode(node, k){
-    let t = node.left.N
-    if(t<k){
-      return this.selectByNode(node.left, k)
-    }else if(t === k){
-      return node
-    }else{
-      return this.selectByNode(node.right, k-t-1)
-    }
-  }
-  /**
-   * 前序遍历
-   * 用数组模拟栈来遍历
-   */
-  preOrder(bst){
-    const stack = []
-    stack.push(this.root)
-    let node,
-        str = '';
-    while(stack.length>0){
-      node = stack.pop()
-      if(node.key || node.key===0){
-        str+=node.key+'->'
-      }
-      if(isDef(node.right)){
-        stack.push(node.right)
-      }
-      if(isDef(node.left)){
-        stack.push(node.left)
-      }
-    }
-    console.log(str)
-  }
-  /**
-   * 中序遍历
-   */
-  InOrder(){
-    const stack = []
-    let node = this.root
-    let str='';
-    while(stack.length>0 || isDef(node)){
-      // 首先遍历找到最左的节点
-      while(isDef(node)){
-        stack.push(node)
-        node = node.left
-      }
-      if(stack.length>0){
-        node = stack.pop()
-        str+=node.key+'->'
-        // 如果最左边节点有右子树再将这个右子树的左节点推入栈
-        node = node.right
-      }
-    }
-    console.log(str)
+  printTree(){
 
-  }
-  /**
-   * 后序遍历
-   * 用两个栈实现
-   */
-  postOrder(){
-    const stack1 = []
-    const stack2 = []
-    stack1.push(this.root)
-    let node,
-        str = ""
-    while(stack1.length>0){
-      node = stack1.pop()
-      stack2.push(node)
-      if(isDef(node.left)){
-        stack1.push(node.left)
-      }
-      if(isDef(node.right)){
-        stack1.push(node.right)
-      }
-    }
-    while(stack2.length>0){
-      str+=stack2.pop().key+'->'
-    }
-    console.log(str)
-  }
-  /**
-   * 层序遍历
-   */
-  sequenceOrder(){
-    const queue = []
-    queue.push(this.root)
-    let node,
-        str = ""
-    while(queue.length>0){
-      node = queue.shift()
-      str += node.key+'->'
-      if(isDef(node.left)){
-        queue.push(node.left)
-      }
-      if(isDef(node.right)){
-        queue.push(node.right)
-      }
-    }
-    console.log(str)
   }
 }
 
@@ -320,49 +123,47 @@ class Node {
   }
 }
 
-function runTest(){
-  let N = 5
-  let arr = []
+function runTest() {
+  let N = 10;
+  let arr = [];
   for (let i = 0; i < N; i++) {
-    arr[i] = i 
+    arr[i] = i;
   }
   // 打乱数组顺序
   for (let i = 0; i < N; i++) {
-    const pos = Math.floor(Math.random()*N)
-    swap(arr, i, pos)
+    const pos = Math.floor(Math.random() * N);
+    swap(arr, i, pos);
   }
   /**bst功能测试 */
   const bst = new BST();
-
   for (let i = 0; i < N; i++) {
-    bst.add(arr[i], arr[i])
+    bst.add(arr[i], arr[i]);
   }
-  console.log(arr)
   // console.log(bst.ceiling(8.2).key)
   // console.log(bst.floor(3.5).key)
-  console.log("min:"+bst.min().key)
-  console.log("max:"+bst.max().key)
-  let res
-  for (let i = 0; i < 2*N; i++) {
-    res = bst.get(i)
-    if(i>=N){
-      if(isDef(res)){
-        console.log('error')
+  console.log("min:" + bst.min().key);
+  console.log("max:" + bst.max().key);
+  let res;
+  // 测试读取
+  for (let i = 0; i < 2 * N; i++) {
+    res = bst.get(i);
+    if (i >= N) {
+      if (isDef(res)) {
+        console.log("error");
       }
     }
   }
-  // bst.deleteMin()
-  // bst.delete(3)
-  //console.log(bst.get(0),bst.get(3))
-  console.log(bst)
-  bst.preOrder()
-  bst.InOrder()
-  bst.postOrder()
-  bst.sequenceOrder()
+  // 测试删除
+  bst.deleteMin()
+  bst.delete(3)
+  console.log(bst.get(0),bst.get(3))
+  console.log(bst);
+  // 测试遍历
+  bst.preOrder();
+  bst.InOrder();
+  bst.postOrder();
+  bst.sequenceOrder();
 }
 
-runTest()
-module.exports = {
-  BST,
-  Node
-}
+// runTest();
+module.exports = BST;
