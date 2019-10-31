@@ -1,11 +1,21 @@
 const { isDef, isUnDef, validate } = require("../util");
-
+/**
+ * 二叉搜索树的基础结构
+ * 定义了查询和4种遍历，还有一些基础方法
+ */
 class Tree{
   constructor(){
-
+    this.root = null
   }
   isBST(){
-    
+    return this.isBSTByNode(this.root)
+  }
+  isBSTByNode(node){
+    if(isUnDef(node)) return true
+    if(node.left && node.key<node.left.key || node.right&&node.key>node.right.key){
+      return false
+    }
+    return this.isBSTByNode(node.left) && this.isBSTByNode(node.right)
   }
   /**
    * 根据key获取node节点
@@ -46,7 +56,7 @@ class Tree{
     return this.minByNode(this.root);
   }
   minByNode(node) {
-    if (isUnDef(node)) return null;
+    if (isUnDef(node)) return node;
     while (node.left) {
       node = node.left;
     }
@@ -208,6 +218,28 @@ class Tree{
       }
     }
     console.log(str);
+  }
+  printTree(){
+    let str = ""
+    str = this.printTreeByDepth(this.root, 0, str)
+    console.log(str)
+  }
+  printTreeByDepth(node, depth, str){
+    if(isUnDef(node)){
+      str+=this.printDepthString(depth)+"null\n"
+      return str
+    }
+    str+=this.printDepthString(depth)+node.key+"\n"
+    str+=this.printTreeByDepth(node.left, depth+1, str)
+    str+=this.printTreeByDepth(node.right, depth+1, str)
+    return str
+  }
+  printDepthString(depth){
+    let str=""
+    for (let i = 0; i <= depth; i++) {
+      str+="-"
+    }
+    return str
   }
 }
 

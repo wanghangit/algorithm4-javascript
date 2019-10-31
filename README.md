@@ -11,7 +11,7 @@
   * [shellSort](sort/shellSort.js) - 希尔排序
   * [mergeSort](sort/mergeSort.js) - 归并排序
   * [quickSort](sort/quickSort.js) - 快速排序
-  * [sortTest](sort/__test__/) 排序测试
+  * [sortTest](sort/__test__/index.js) 排序测试
 
 * *Heap* 堆
   * [chooseSort](heap/maxPQ.js) - 最大优先队列
@@ -20,7 +20,8 @@
 * *Search* 查找
   * [BST](search/BST.js) - 二分查找树
   * [AVLTree](sort/AVLTree.js) - 平衡二叉树
-  * [searchTest](sort/__test__/) 查找测试
+  * [RedBlackTree](sort/RedBlackTree.js) - 平衡二叉树
+  * [searchTest](sort/__test__/index.js) 查找测试
 
 * *Graph* 图论
   * [SparseGraph](graph/SparseGraph.js) - 稀疏图，邻接表基本结构

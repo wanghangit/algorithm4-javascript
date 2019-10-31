@@ -1,9 +1,10 @@
 const BST = require("../BST");
 const AVLTree = require("../AVLTree");
+const RedBlackTree = require("../RedBlackTree")
 const { swap } = require("../../util");
 
 // 初始化测试数据
-let N = 1000;
+let N = 5000;
 let arr = [];
 for (let i = 0; i < N; i++) {
   arr[i] = i;
@@ -19,11 +20,11 @@ function runTest(search) {
     search.add(arr[i], arr[i]);
   }
   console.timeEnd(search.name + " :add");
-  console.time(search.name + " :delete");
-  for (let i = 0; i < N; i++) {
-    search.delete(Math.floor(Math.random() * N));
-  }
-  console.timeEnd(search.name + " :delete");
+  // console.time(search.name + " :delete");
+  // for (let i = 0; i < N; i++) {
+  //   search.delete(Math.floor(Math.random() * N));
+  // }
+  // console.timeEnd(search.name + " :delete");
   console.time(search.name + " :get");
   let res;
   for (let i = 0; i < N; i++) {
@@ -33,4 +34,5 @@ function runTest(search) {
 }
 
 runTest(new BST());
-// runTest(new AVLTree());
+runTest(new AVLTree());
+runTest(new RedBlackTree());

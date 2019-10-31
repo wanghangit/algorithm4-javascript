@@ -12,7 +12,7 @@
       // "program": "${workspaceFolder}/sort/__test__/index.js",
       // "program": "${workspaceFolder}/graph/__test__/index.js",
       // "program": "${workspaceFolder}/heap/__test__/index.js",
-      "program": "${workspaceFolder}/search/AVLTree.js",
+      "program": "${workspaceFolder}/search/BST.js",
       "outFiles": [
         "${workspaceFolder}/**/*.js"
       ]
